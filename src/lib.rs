@@ -36,7 +36,7 @@ impl ThreadPool {
 
     pub fn execute<F>(&self, f:F)
     where
-        F: FnOnce() + Send + 'static,
+        F: FnOnce() + Send + 'static, // FnOnce (function only callable once) can be sent across threads and contains only static references
     {
         let job = Box::new(f);
         self.sender.send(Message::NewJob(job)).unwrap();
