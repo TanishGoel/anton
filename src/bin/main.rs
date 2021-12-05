@@ -24,8 +24,8 @@ fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 1024];
     stream.read(&mut buffer).unwrap();
 
-    let get = b"GET / HTTP/1.1\r\n";
-    let sleep = b"GET /sleep HTTP/1.1\r\n";
+    let get = b"GET / HTTP/1.1\r\n"; // response converted to byte string webpage should return if at /
+    let sleep = b"GET /sleep HTTP/1.1\r\n"; // response converted to byte string webpage should return if at /sleep
 
     let (status_line, filename) = if buffer.starts_with(get) {
         ("HTTP/1.1 200 OK", "hello.html")
@@ -44,7 +44,8 @@ fn handle_connection(mut stream: TcpStream) {
         contents.len(),
         contents
     );
-
+    // writes the response by converting to bytes and unwrapping to panic if it fails.
     stream.write(response.as_bytes()).unwrap();
+    // prevents program from continuing until all bytes are written.
     stream.flush().unwrap();
 }
