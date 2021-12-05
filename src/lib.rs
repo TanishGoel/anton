@@ -21,9 +21,9 @@ impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
 
-        let (sender, receiver) = mpsc::channel();
+        let (sender, receiver) = mpsc::channel(); // create a channel to send and receive requests.
 
-        let receiver = Arc::new(Mutex::new(receiver));
+        let receiver = Arc::new(Mutex::new(receiver)); // arc allows multiple threads to own receiver and mutex ensures that jobs are passed to only one thread.
 
         let mut workers = Vec::with_capacity(size);
 
